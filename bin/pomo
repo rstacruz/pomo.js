@@ -1,30 +1,56 @@
 #!/usr/bin/env node
-var cli = require('commander');
+global.cli = require('commander');
 var helpers = require('../lib/helpers');
 var moment = require('moment');
 var Timer = helpers.Timer;
 var say = helpers.say;
-
+var c = helpers.c;
+var clear = helpers.clear;
+var exec = helpers.exec;
 
 cli
   .option('-w, --work [n]', 'number of minutes to run [25]', 25)
   .option('-b, --break [n]', 'number minutes for a break [5]', 5)
+  .option('-q, --quiet', 'no sounds')
   .parse(process.argv);
 
-console.log("\n=> it's now " + moment().format("HH:mm"));
-console.log("=> " + cli.work + "m pomodoro (with " + cli.break + "m break)\n");
+var reason = cli.args.join(' ') || 'do work';
+var total = { start: new Date(), end: null };
+
+clear();
+console.log("\n=> " + moment().format("HH:mma") + ", time for " + reason);
+console.log("   " + cli.work + "m pomodoro (with " + cli.break + "m break)\n");
+
 
 var work = new Timer(cli.work);
 work.start(function() {
   say("Work done! Let's take a break");
-  console.log("\n=> it's now " + moment().format("HH:mm"));
-  console.log("=> break:\n");
+  printLog();
+
+  console.log("\n=> " + moment().format("HH:mma") + ", time for a " + cli.break + "m break:\n");
+
 
   setTimeout(function() {
-    var snack = new Timer(cli.break);
+    total.end = new Date();
+    var snack = new Timer(cli.break, { color: 32 });
+
     snack.start(function() {
       say("All done!");
       console.log("\n=> it's now " + moment().format("HH:mm"));
     });
-  }, 1800);
+  }, 3000);
 });
+
+process.on('exit', printLog);
+process.on('SIGINT', function() { console.log(""); process.exit(0); });
+
+function printLog() {
+  var str = '';
+  str += "  " + moment(total.start).format("HH:mm") + ": " + reason + "\n";
+  if (total.end) str += "  " + moment(total.end).format("HH:mm") + ": # break\n";
+  str += "  " + moment().format("HH:mm") + ": #";
+
+  console.log("\nLog (copied to clipboard):");
+  console.log(c(33, str));
+  exec("echo "+JSON.stringify(str)+" | pbcopy");
+}
