@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+var cli = require('commander');
+var helpers = require('../lib/helpers');
+var moment = require('moment');
+var Timer = helpers.Timer;
+var say = helpers.say;
+
+
+cli
+  .option('-w, --work [n]', 'number of minutes to run [25]', 25)
+  .option('-b, --break [n]', 'number minutes for a break [5]', 5)
+  .parse(process.argv);
+
+console.log("\n=> it's now " + moment().format("HH:mm"));
+console.log("=> " + cli.work + "m pomodoro (with " + cli.break + "m break)\n");
+
+var work = new Timer(cli.work);
+work.start(function() {
+  say("Work done! Let's take a break");
+  console.log("\n=> it's now " + moment().format("HH:mm"));
+  console.log("=> break:\n");
+
+  setTimeout(function() {
+    var snack = new Timer(cli.break);
+    snack.start(function() {
+      say("All done!");
+      console.log("\n=> it's now " + moment().format("HH:mm"));
+    });
+  }, 1800);
+});
