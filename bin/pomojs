@@ -83,7 +83,7 @@ Q.try(function() {
   });
 
 }).then(function() {
-  say("All done!");
+  say(reason + ": all done!");
   Log.now("done");
 
 }).done();
