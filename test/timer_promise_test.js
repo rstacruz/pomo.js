@@ -7,8 +7,7 @@ describe('Timer promises', function() {
   var say;
 
   beforeEach(function() {
-    say = sinon.spy();
-    timer = new Timer(10);
+    timer = new Timer(10, { speed: 100 });
   });
 
   afterEach(function() {
@@ -38,27 +37,6 @@ describe('Timer promises', function() {
 
       setTime('May 5 2013 04:00');
       assert.equal(timer.isLapsed(), true);
-    });
-  }));
-
-  /**
-   * Test .say()
-   */
-
-  describe('.say', pt(function() {
-    timer = new Timer(10, { say: say });
-
-    return Q.try(function() {
-      setTime('May 5 2013 03:00');
-      return timer.start();
-
-    }).then(0, 0, function() { /* Progress */
-      // Check say last call
-
-    }).then(function() {
-      setTime('May 5 2013 04:00');
-
-
     });
   }));
 
