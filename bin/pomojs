@@ -7,6 +7,7 @@ var Helpers  = require('../lib/helpers');
 var Timer    = require('../lib/timer');
 var Log      = require('../lib/log');
 var Landing  = require('../lib/landing');
+var Tmux     = require('../lib/tmux');
 
 var speak    = Helpers.speak;
 var growl    = Helpers.growl;
@@ -37,6 +38,7 @@ cli
 
 var reason = cli.args.join(' ') || 'work';
 var total  = { start: new Date(), end: null };
+var reporters = [ Landing, Tmux ];
 if (cli.duration) { cli.work = cli.duration; cli.break = 0; }
 
 var say = function(words) {
@@ -45,8 +47,8 @@ var say = function(words) {
 };
 
 Q.try(function() {
-  work  = new Timer(cli.work,  { mode: 'work',  say: say, progress: [Landing] });
-  snack = new Timer(cli.break, { mode: 'break', say: say, progress: [Landing] });
+  work  = new Timer(cli.work,  { mode: 'work',  say: say, progress: reporters });
+  snack = new Timer(cli.break, { mode: 'break', say: say, progress: reporters });
 
 }).then(function() {
   clear();
@@ -88,6 +90,7 @@ Q.try(function() {
 }).then(function() {
   say(reason + ": all done!");
   Log.now("done");
+  work.abort();
 
 }).done();
 
@@ -95,6 +98,7 @@ Q.try(function() {
 
 process.on('SIGINT', function() {
   console.log("");
+  work.abort();
   Log.now('interrupted');
   process.exit(0);
 });
