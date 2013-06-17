@@ -19,5 +19,6 @@ Features:
 Requirements:
 
  * node.js and OSX
+ * growlnotify
 
 MIT
