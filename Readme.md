@@ -12,3 +12,5 @@ $ pomojs --help
 Requirements:
 
  * node.js and OSX
+
+MIT
