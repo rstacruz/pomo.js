@@ -1,4 +1,4 @@
-global.Moment = require('moment');
+global.moment = require('moment');
 global.chai   = require('chai');
 global.sinon  = require('sinon');
 global.Q      = require('q');
