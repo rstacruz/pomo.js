@@ -27,6 +27,7 @@ cli
   .option('-b, --break [mins]', 'break timer length, 0 to disable [5]', 5)
   .option('-d, --duration [mins]', 'shortcut for -w <secs> -b 0', null)
   .option('-t, --tmux', 'enable tmux reporting')
+  .option('-l, --log [file]', 'log to this file')
   .option('-q, --quiet', 'no sounds')
   .on('--help', function() {
     console.log('  examples:');
@@ -95,14 +96,33 @@ Q.try(function() {
   say(reason + ": all done!");
   Print.now("done");
   work.abort();
+  logEntry();
 
 }).done();
 
-// -----
+/**
+ * It's a trap.
+ */
 
 process.on('SIGINT', function() {
   console.log("");
   work.abort();
   Print.now('interrupted');
+  logEntry(true);
   process.exit(0);
 });
+
+/**
+ * Logs the current entry.
+ */
+
+function logEntry(interrupted) {
+  if (!cli.log) return;
+  Logger(cli.log, {
+    reason: reason,
+    duration: work.elapsed(),
+    'break': snack.elapsed(),
+    interrupted: !!interrupted
+  });
+}
+

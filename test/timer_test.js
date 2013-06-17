@@ -24,6 +24,16 @@ describe('Timer', function() {
       assert.equal(+timer.elapsed(), 6*secs);
     });
 
+    it(".elapsed() beyond", function() {
+      timer = makeTimer({ mins: 1, elapsed: 1234*secs });
+      assert.equal(+timer.elapsed(), 60*secs);
+    });
+
+    it(".elapsed() before starting", function() {
+      timer = new Timer(30);
+      assert.equal(+timer.elapsed(), 0);
+    });
+
     it(".remaining()", function() {
       timer = makeTimer({ mins: 1.1, elapsed: 6*secs });
       assert.equal(+timer.remaining(), 60*secs);

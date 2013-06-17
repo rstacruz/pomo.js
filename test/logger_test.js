@@ -31,7 +31,7 @@ describe('logger', function() {
    * Test
    */
 
-  it('should work', function() {
+  it('should work fresh', function() {
     logger('x.txt', {
       reason: 'working',
       duration: 35000, 'break': 5000,
