@@ -1,12 +1,15 @@
 #!/usr/bin/env node
-global.cli = require('commander');
+global.cli  = require('commander');
 var helpers = require('../lib/helpers');
-var moment = require('moment');
-var Timer = require('../lib/timer');
-var say = helpers.say;
-var c = helpers.c;
-var clear = helpers.clear;
-var exec = helpers.exec;
+var moment  = require('moment');
+var Timer   = require('../lib/timer');
+var Q       = require('q');
+
+var speak   = helpers.speak;
+var growl   = helpers.growl;
+var c       = helpers.c;
+var clear   = helpers.clear;
+var exec    = helpers.exec;
 
 cli
   .option('-w, --work [n]', 'number of minutes to run [25]', 25)
@@ -15,33 +18,50 @@ cli
   .parse(process.argv);
 
 var reason = cli.args.join(' ') || 'do work';
-var total = { start: new Date(), end: null };
+var total  = { start: new Date(), end: null };
 
-clear();
-console.log("\n=> " + moment().format("HH:mma") + ", time for " + reason);
-console.log("   " + cli.work + "m pomodoro (with " + cli.break + "m break)\n");
+var say = function(words) {
+  if (!cli.quiet) speak(words);
+  growl(words);
+};
 
-var work = new Timer(cli.work, { say: say });
-var snack = new Timer(cli.break, { color: 32, say: say });
+var work, snack;
 
-work.start(function() {
+Q.try(function() {
+  work  = new Timer(cli.work,  { say: say });
+  snack = new Timer(cli.break, { color: 32, say: say });
+
+}).then(function() {
+  clear();
+  console.log("");
+  console.log("=> " + moment().format("HH:mma") + ", time for " + reason);
+  console.log("   " + cli.work + "m pomodoro (with " + cli.break + "m break)");
+  console.log("");
+  return work.start();
+
+}).then(function() {
   say("Work done! Let's take a break");
-  printLog();
+  console.log("");
+  console.log("=> " + moment().format("HH:mma") + ", time for a " + cli.break + "m break:");
+  console.log("");
+  return Q.delay(3000);
 
-  console.log("\n=> " + moment().format("HH:mma") + ", time for a " + cli.break + "m break:\n");
+}).then(function() {
+  total.end = new Date();
+  return snack.start();
 
-  setTimeout(function() {
-    total.end = new Date();
+}).then(function() {
+  say("All done!");
+  console.log("\n=> it's now " + moment().format("HH:mm"));
 
-    snack.start(function() {
-      say("All done!");
-      console.log("\n=> it's now " + moment().format("HH:mm"));
-    });
-  }, 3000);
-});
+}).done();
+
+// -----
 
 process.on('exit', printLog);
 process.on('SIGINT', function() { console.log(""); process.exit(0); });
+
+// -----
 
 function printLog() {
   var str = '';

@@ -1,5 +1,5 @@
 {
-  "name": "livemarkup",
+  "name": "pomo",
   "description": "",
   "keywords": [
     ""
@@ -8,9 +8,8 @@
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rstacruz/___.git"
+    "url": "https://github.com/rstacruz/pomo.git"
   },
-  "main": "index",
   "scripts": {
     "test": "./node_modules/.bin/mocha -R spec"
   },
@@ -19,12 +18,13 @@
     "chai": "*"
   },
   "bin": {
-    "command": "./bin/command"
+    "pomo": "./bin/pomo"
   },
   "license": "MIT",
   "dependencies": {
     "commander": "~1.2.0",
     "moment": "~2.0.0",
-    "underscore": "~1.4.4"
+    "underscore": "~1.4.4",
+    "q": "~0.9.6"
   }
 }
