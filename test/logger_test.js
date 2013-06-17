@@ -3,6 +3,7 @@ require('./setup');
 var logger = require('../lib/logger');
 var yaml = require('js-yaml');
 var fs = require('fs');
+var mins = 60 * 1000;
 
 describe('logger', function() {
   var data;
@@ -34,7 +35,7 @@ describe('logger', function() {
   it('should work fresh', function() {
     logger('x.txt', {
       reason: 'working',
-      duration: 35000, 'break': 5000,
+      duration: 35*mins, 'break': 5*mins,
       date: moment('May 5, 2013 1:00 pm').toDate()
     });
 
@@ -44,7 +45,7 @@ describe('logger', function() {
 
     assert.jsonEqual(yaml.load(args[1]), {
       '2013-05-05 sunday': {
-        '1:00pm': 'working'
+        '1:00pm': 'working (35m + 5m)'
       }
     });
   });
@@ -52,17 +53,18 @@ describe('logger', function() {
   it('should consolidate', function() {
     logger('x.txt', {
       reason: 'working',
-      duration: 35000, 'break': 5000,
+      duration: 35*mins, 'break': 5*mins,
       date: moment('May 5, 2013 3:00 pm').toDate()
     });
     logger('x.txt', {
       reason: 'working again',
-      duration: 35000, 'break': 5000,
-      date: moment('May 5, 2013 3:30 pm').toDate()
+      duration: 30*mins, 'break': 5*mins,
+      date: moment('May 5, 2013 3:30 pm').toDate(),
+      interrupted: true
     });
     logger('x.txt', {
       reason: 'also working',
-      duration: 35000, 'break': 5000,
+      duration: 25*mins, 'break': 5*mins,
       date: moment('May 6, 2013 5:00 am').toDate()
     });
 
@@ -70,11 +72,11 @@ describe('logger', function() {
 
     assert.jsonEqual(yaml.load(args[1]), {
       '2013-05-05 sunday': {
-        '3:00pm': 'working',
-        '3:30pm': 'working again'
+        '3:00pm': 'working (35m + 5m)',
+        '3:30pm': 'working again (30m + 5m, stopped)'
       },
       '2013-05-06 monday': {
-        '5:00am': 'also working'
+        '5:00am': 'also working (25m + 5m)'
       }
     });
   });
