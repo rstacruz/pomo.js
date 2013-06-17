@@ -7,7 +7,7 @@ $ pomojs --help
 
 ![Screenshot](http://rstacruz.github.io/pomo.js/screenshot.png)
 
-[![Build Status](https://travis-ci.org/rstacruz/pomo.js.png?branch=master)](https://travis-ci.org/rstacruz/pomo.js)
+[![Build Status](https://travis-ci.org/rstacruz/pomo.js.png?branch=master)](https://travis-ci.org/rstacruz/pomo.js) [![NPM version](https://badge.fury.io/js/pomo.png)](http://badge.fury.io/js/pomo)
 
 ### Get started
 
