@@ -34,7 +34,11 @@ $ pomojs --help
  * node.js and OSX
  * growlnotify
 
-### Tmux integration
+----
+
+### Tips
+
+#### Tmux integration
 
 Just add this to `~.tmux.conf`: (works almost exactly like in [pomo.rb][pomo-tmux])
 
@@ -42,7 +46,7 @@ Just add this to `~.tmux.conf`: (works almost exactly like in [pomo.rb][pomo-tmu
 
 ...then invoke it with `pomojs -t`.
 
-### Logging
+#### Logging
 
 Invoke it with `pomojs -l ~/.pomo.log` to log any pomodoros. Log file looks like 
 this:
@@ -56,12 +60,12 @@ this:
 6:14am = eat pizza (25m + 5m)
 ```
 
-### Saving your settings
+#### Saving your settings
 
-Add this to your shell config, so that the next time you can invoke `pomo` with 
-preset settings:
+Add this to your shell config, so that the next time you can invoke `pomojs` 
+with preset settings:
 
-```
+``` sh
 # ~/.bash_profile
 alias pomo="pomojs --log ~/.pomo.log --tmux"
 ```
@@ -75,6 +79,8 @@ alias longpomo="pomo -b 20"
 # 10-minute pomodoro
 alias minipomo="pomo -w 10"
 ```
+
+-----
 
 ### Also see
 
