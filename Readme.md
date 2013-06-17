@@ -21,4 +21,14 @@ Requirements:
  * node.js and OSX
  * growlnotify
 
+Also check out:
+
+ * [visionmedia/pomo] - pomodoro task manager (ruby gem)
+ * [pmd] - has OSX status bar integration
+ * [pom] - shell script
+
 MIT
+
+[visionmedia/pomo]: https://github.com/visionmedia/pomo
+[pmd]: http://me.dt.in.th/page/pmd
+[pom]: https://github.com/tobym/pom
