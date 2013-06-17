@@ -19,9 +19,17 @@ var work, snack;
 Q.longStackSupport = true;
 
 cli
+  .usage('[reason]')
   .option('-w, --work [n]', 'number of minutes to run [25]', 25)
   .option('-b, --break [n]', 'number minutes for a break [5]', 5)
   .option('-q, --quiet', 'no sounds')
+  .on('--help', function() {
+    console.log('  examples:');
+    console.log('');
+    console.log('    $ pomojs              # start a timer');
+    console.log('    $ pomojs Fix stuff    # reason');
+    console.log('    $ pomojs -w 10        # 10-minute pomodoro');
+  })
   .parse(process.argv);
 
 var reason = cli.args.join(' ') || 'do work';
