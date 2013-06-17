@@ -12,10 +12,11 @@ $ pomojs --help
 ### Get started
 
 ``` sh
-$ pomo                              # Start a timer
-$ pomo "Conquer the world"          # Reason (great if you're logging)
-$ pomo -w 30                        # --work for 30 minutes
-$ pomo -b 12                        # --break for 12 minutes
+$ pomojs                              # Start a timer
+$ pomojs "Conquer the world"          # Reason (great if you're logging)
+$ pomojs -w 30                        # --work for 30 minutes
+$ pomojs -b 12                        # --break for 12 minutes
+$ pomojs --help
 ```
 
 ### Features
