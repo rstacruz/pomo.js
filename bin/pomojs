@@ -33,7 +33,7 @@ cli
   })
   .parse(process.argv);
 
-var reason = cli.args.join(' ') || 'do work';
+var reason = cli.args.join(' ') || 'work';
 var total  = { start: new Date(), end: null };
 
 var say = function(words) {
