@@ -17,6 +17,7 @@ $ pomojs --help
  * Growls (via growlnotify)
  * No support for long breaks (this is a feature. problem?)
  * Tmux support (status bar integration)
+ * Optional logging
 
 ### Requirements
 
@@ -30,6 +31,37 @@ Just add this to `~.tmux.conf`: (works almost exactly like in [pomo.rb][pomo-tmu
      set-option -g status-right '#(cat ~/.pomo_stat)'
 
 ...then invoke it with `pomojs -t`.
+
+### Logging
+
+Invoke it with `pomojs -l ~/.pomo.log` to log any pomodoros. Log file looks like 
+this:
+
+    "2013-05-03 tue":
+      "6:32am": "work on tests (25m + 5m)"
+      "7:05am": "do more things (25m + 2m 3s, stopped)"
+    "2013-05-04 wed":
+      "8:26am": "eat pizza (25m + 5m)"
+
+### Saving your settings
+
+Add this to your shell config, so that the next time you can invoke `pomo` with 
+preset settings:
+
+```
+# ~/.bash_profile
+alias pomo="pomojs --log ~/.pomo.log --tmux"
+```
+
+Even add more presets:
+
+``` sh
+# long-break pomodoro
+alias longpomo="pomo -b 20"
+
+# 10-minute pomodoro
+alias minipomo="pomo -w 10"
+```
 
 ### Also see
 
