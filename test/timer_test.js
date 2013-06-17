@@ -23,6 +23,17 @@ describe('Timer', function() {
     assert.equal(+timer.remaining(), 60*secs);
   });
 
+  it(".isLapsed() true", function() {
+    timer = makeTimer({ mins: 1.1, elapsed: 1*mins + 7*secs });
+    assert.equal(timer.isLapsed(), true);
+  });
+
+  it(".isLapsed() false", function() {
+    timer = makeTimer({ mins: 1.1, elapsed: 1*mins + 5*secs });
+    assert.equal(timer.isLapsed(), false);
+  });
+
+
   /**
    * Percent
    */
