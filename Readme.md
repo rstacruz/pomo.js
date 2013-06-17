@@ -12,7 +12,7 @@ $ pomojs --help
 Features:
 
  * Command-line goodness
- * Configurable work and break durations
+ * Configurable work and break durations (`pomojs --work 10 --break 2`)
  * Announces via text-to-speech ("5 minutes to go!")
  * Growls
 
