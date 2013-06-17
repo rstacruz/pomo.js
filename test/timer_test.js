@@ -33,7 +33,6 @@ describe('Timer', function() {
     assert.equal(timer.isLapsed(), false);
   });
 
-
   /**
    * Percent
    */
