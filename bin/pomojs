@@ -48,8 +48,8 @@ Q.try(function() {
 }).then(function() {
   clear();
 
-  say(format("%s, %s work for %s", 
-     moment().format("HH:mma"), work.duration.humanize(), reason));
+  say(format("%s, %s to do %s", 
+     moment().format("h:mm a"), work.duration.humanize(), reason));
 
   if (cli.break > 0) {
     Log.now(format("time for %s (%s)\na %s break follows",
@@ -68,8 +68,8 @@ Q.try(function() {
 }).then(function() {
   if (cli.break <= 0) return;
 
-  say(format("Done! %s, %s break",
-    moment().format("HH:mma"), snack.duration.humanize()));
+  say(format("Done! %s, break for %s",
+    moment().format("hh:mm a"), snack.duration.humanize()));
 
   Log.now(format("time for a break (%s)",
     duration(snack.duration)));
