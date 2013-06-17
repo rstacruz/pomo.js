@@ -28,6 +28,8 @@ Just add this to `~.tmux.conf`: (works almost exactly like in [pomo.rb][pomo-tmu
 
      set-option -g status-right '#(cat ~/.pomo_stat)'
 
+...then invoke it with `pomojs -t`.
+
 ### Also see
 
  * [visionmedia/pomo] - pomodoro task manager (ruby gem)
