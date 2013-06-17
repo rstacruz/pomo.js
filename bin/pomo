@@ -2,7 +2,7 @@
 global.cli = require('commander');
 var helpers = require('../lib/helpers');
 var moment = require('moment');
-var Timer = helpers.Timer;
+var Timer = require('../lib/timer');
 var say = helpers.say;
 var c = helpers.c;
 var clear = helpers.clear;
@@ -21,18 +21,17 @@ clear();
 console.log("\n=> " + moment().format("HH:mma") + ", time for " + reason);
 console.log("   " + cli.work + "m pomodoro (with " + cli.break + "m break)\n");
 
+var work = new Timer(cli.work, { say: say });
+var snack = new Timer(cli.break, { color: 32, say: say });
 
-var work = new Timer(cli.work);
 work.start(function() {
   say("Work done! Let's take a break");
   printLog();
 
   console.log("\n=> " + moment().format("HH:mma") + ", time for a " + cli.break + "m break:\n");
 
-
   setTimeout(function() {
     total.end = new Date();
-    var snack = new Timer(cli.break, { color: 32 });
 
     snack.start(function() {
       say("All done!");
