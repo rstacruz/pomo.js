@@ -19,7 +19,7 @@
     "sinon": "~1.7.2"
   },
   "bin": {
-    "pomo": "./bin/pomo"
+    "pomojs": "./bin/pomojs"
   },
   "license": "MIT",
   "dependencies": {
