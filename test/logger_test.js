@@ -49,6 +49,21 @@ describe('logger', function() {
     });
   });
 
+  it('no break', function() {
+    logger('x.txt', {
+      reason: 'working',
+      duration: 35*mins, 'break': 0,
+      date: moment('May 5, 2013 1:00 pm').toDate()
+    });
+
+    var args = logger.write.firstCall.args;
+    assert.jsonEqual(logger.load(args[1]), {
+      '2013-05-05 sun': {
+        '1:00pm': 'working (35m)'
+      }
+    });
+  });
+
   it('should consolidate', function() {
     logger('x.txt', {
       reason: 'working',
