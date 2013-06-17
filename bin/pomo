@@ -42,16 +42,21 @@ Q.try(function() {
 
   clear();
   Log.line("");
-  Log.info(moment().format("HH:mma") + dot + "time for " + reason);
-  Log.line(duration(work.duration) + " pomodoro (with " + duration(snack.duration) + " break)");
+  Log.info(moment().format("HH:mma") + dot + "time for " + reason + " (" + duration(work.duration) + ")");
+  Log.line("a " + duration(snack.duration) + " break follows");
   console.log("");
+
+  work.initial();
+  return Q.delay(1000);
+
+}).then(function() {
   return work.start();
 
 }).then(function() {
   say("Done! " + moment().format("HH:mma") + ", " + snack.duration.humanize() + " break");
 
   Log.line("");
-  Log.info(moment().format("HH:mma") + dot + "time for a " + duration(snack.duration) + " break:");
+  Log.info(moment().format("HH:mma") + dot + "time for a break (" + duration(snack.duration) + ")");
   Log.line("");
   snack.initial();
   return Q.delay(3000);
