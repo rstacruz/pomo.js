@@ -1,3 +1,7 @@
+## v1.0.6 - June 18, 2013
+
+ * Logging via `pomojs -l <file>`.
+
 ## v1.0.5 - June 18, 2013
 
  * Tmux integration with `pomojs -t`.
