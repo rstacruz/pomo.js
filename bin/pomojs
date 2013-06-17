@@ -21,7 +21,7 @@ Q.longStackSupport = true;
 cli
   .usage('[reason]')
   .option('-w, --work [n]', 'number of minutes to run [25]', 25)
-  .option('-b, --break [n]', 'number minutes for a break [5]', 5)
+  .option('-b, --break [n]', 'number of minutes for a break (0 to disable) [5]', 5)
   .option('-q, --quiet', 'no sounds')
   .on('--help', function() {
     console.log('  examples:');
@@ -50,8 +50,13 @@ Q.try(function() {
   say(format("%s, %s work for %s", 
      moment().format("HH:mma"), work.duration.humanize(), reason));
 
-  Log.now(format("time for %s (%s)\na %s break follows",
-    reason, duration(work.duration), duration(snack.duration)));
+  if (cli.break > 0) {
+    Log.now(format("time for %s (%s)\na %s break follows",
+      reason, duration(work.duration), duration(snack.duration)));
+  } else {
+    Log.now(format("time for %s (%s)",
+      reason, duration(work.duration)));
+  }
 
   work.initial();
   return Q.delay(1000);
@@ -60,6 +65,8 @@ Q.try(function() {
   return work.start();
 
 }).then(function() {
+  if (cli.break <= 0) return;
+
   say(format("Done! %s, %s break",
     moment().format("HH:mma"), snack.duration.humanize()));
 
@@ -67,11 +74,12 @@ Q.try(function() {
     duration(snack.duration)));
 
   snack.initial();
-  return Q.delay(3000);
 
-}).then(function() {
-  total.end = new Date();
-  return snack.start();
+  return Q.delay(3000)
+  .then(function() {
+    total.end = new Date();
+    return snack.start();
+  });
 
 }).then(function() {
   say("All done!");
