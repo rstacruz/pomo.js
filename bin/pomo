@@ -10,7 +10,9 @@ Q.longStackSupport = true;
 var speak    = helpers.speak;
 var growl    = helpers.growl;
 var c        = helpers.c;
+var indent   = helpers.indent;
 var clear    = helpers.clear;
+var copy     = helpers.copy;
 var exec     = helpers.exec;
 var duration = helpers.duration;
 
@@ -29,6 +31,7 @@ var say = function(words) {
 };
 
 var work, snack;
+var dot = ' ⋅ ';
 
 Q.try(function() {
   work  = new Timer(cli.work,  { say: say });
@@ -37,7 +40,7 @@ Q.try(function() {
 }).then(function() {
   clear();
   Log.line("");
-  Log.info(moment().format("HH:mma") + ", time for " + reason);
+  Log.info(moment().format("HH:mma") + dot + "time for " + reason);
   Log.line(duration(work.duration) + " pomodoro (with " + duration(snack.duration) + " break)");
   console.log("");
   return work.start();
@@ -45,7 +48,7 @@ Q.try(function() {
 }).then(function() {
   say("Work done! Let's take a break");
   Log.line("");
-  Log.info(moment().format("HH:mma") + ", time for a " + duration(snack.duration) + " break:");
+  Log.info(moment().format("HH:mma") + dot + "time for a " + duration(snack.duration) + " break:");
   Log.line("");
   snack.initial();
   return Q.delay(3000);
@@ -74,7 +77,8 @@ function printLog() {
   if (total.end) str += "  " + moment(total.end).format("HH:mm") + ": # break\n";
   str += "  " + moment().format("HH:mm") + ": #";
 
-  console.log("\nLog (copied to clipboard):");
-  console.log(c(33, str));
-  exec("echo "+JSON.stringify(str)+" | pbcopy");
+  Log.line("");
+  Log.info("time log (copied to clipboard):");
+  console.log(c(32, indent(str, '  ')));
+  copy(str);
 }
