@@ -5,9 +5,10 @@ var Q        = require('q');
 var util     = require('util');
 var Helpers  = require('../lib/helpers');
 var Timer    = require('../lib/timer');
-var Log      = require('../lib/log');
+var Print    = require('../lib/print');
 var Landing  = require('../lib/landing');
 var Tmux     = require('../lib/tmux');
+var Logger   = require('../lib/logger');
 
 var speak    = Helpers.speak;
 var growl    = Helpers.growl;
@@ -60,10 +61,10 @@ Q.try(function() {
      moment().format("h:mm a"), work.duration.humanize(), reason));
 
   if (cli.break > 0) {
-    Log.now(format("time for %s (%s)\na %s break follows",
+    Print.now(format("time for %s (%s)\na %s break follows",
       reason, duration(work.duration), duration(snack.duration)));
   } else {
-    Log.now(format("time for %s (%s)",
+    Print.now(format("time for %s (%s)",
       reason, duration(work.duration)));
   }
 
@@ -79,7 +80,7 @@ Q.try(function() {
   say(format("Done! %s, break for %s",
     moment().format("hh:mm a"), snack.duration.humanize()));
 
-  Log.now(format("time for a break (%s)",
+  Print.now(format("time for a break (%s)",
     duration(snack.duration)));
 
   snack.initial();
@@ -92,7 +93,7 @@ Q.try(function() {
 
 }).then(function() {
   say(reason + ": all done!");
-  Log.now("done");
+  Print.now("done");
   work.abort();
 
 }).done();
@@ -102,6 +103,6 @@ Q.try(function() {
 process.on('SIGINT', function() {
   console.log("");
   work.abort();
-  Log.now('interrupted');
+  Print.now('interrupted');
   process.exit(0);
 });

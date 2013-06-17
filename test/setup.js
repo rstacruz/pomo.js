@@ -21,6 +21,10 @@ global.pt = function(fn) {
   };
 };
 
+assert.jsonEqual = function(left, right) {
+  return assert.equal(JSON.stringify(left), JSON.stringify(right));
+};
+
 /**
  * 2 * minutes
  */

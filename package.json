@@ -2,7 +2,9 @@
   "name": "pomo",
   "description": "Command-line timer, useful for Pomodoros.",
   "keywords": [
-    "timer", "countdown", "stopwatch"
+    "timer",
+    "countdown",
+    "stopwatch"
   ],
   "author": "Rico Sta. Cruz <hi@ricostacruz.com>",
   "version": "1.0.5",
@@ -26,6 +28,7 @@
     "commander": "~1.2.0",
     "moment": "~2.0.0",
     "underscore": "~1.4.4",
-    "q": "~0.9.6"
+    "q": "~0.9.6",
+    "js-yaml": "~2.1.0"
   }
 }
