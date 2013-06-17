@@ -14,8 +14,9 @@
     "test": "./node_modules/.bin/mocha -R spec"
   },
   "devDependencies": {
-    "mocha": "*",
-    "chai": "*"
+    "mocha": "~1.11.0",
+    "chai": "~1.6.1",
+    "sinon": "~1.7.2"
   },
   "bin": {
     "pomo": "./bin/pomo"
