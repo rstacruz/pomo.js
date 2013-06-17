@@ -20,6 +20,7 @@ Q.longStackSupport = true;
 
 cli
   .usage('[reason]')
+  .version(require('../package').version)
   .option('-w, --work [n]', 'number of minutes to run [25]', 25)
   .option('-b, --break [n]', 'number of minutes for a break (0 to disable) [5]', 5)
   .option('-q, --quiet', 'no sounds')
