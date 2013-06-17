@@ -13,24 +13,31 @@ describe('Timer', function() {
     say = sinon.spy();
   });
 
-  it(".elapsed()", function() {
-    timer = makeTimer({ mins: 1.1, elapsed: 6*secs });
-    assert.equal(+timer.elapsed(), 6*secs);
-  });
 
-  it(".remaining()", function() {
-    timer = makeTimer({ mins: 1.1, elapsed: 6*secs });
-    assert.equal(+timer.remaining(), 60*secs);
-  });
+  /**
+   * Test some of the basic utility methods
+   */
 
-  it(".isLapsed() true", function() {
-    timer = makeTimer({ mins: 1.1, elapsed: 1*mins + 7*secs });
-    assert.equal(timer.isLapsed(), true);
-  });
+  describe('utilities', function() {
+    it(".elapsed()", function() {
+      timer = makeTimer({ mins: 1.1, elapsed: 6*secs });
+      assert.equal(+timer.elapsed(), 6*secs);
+    });
 
-  it(".isLapsed() false", function() {
-    timer = makeTimer({ mins: 1.1, elapsed: 1*mins + 5*secs });
-    assert.equal(timer.isLapsed(), false);
+    it(".remaining()", function() {
+      timer = makeTimer({ mins: 1.1, elapsed: 6*secs });
+      assert.equal(+timer.remaining(), 60*secs);
+    });
+
+    it(".isLapsed() true", function() {
+      timer = makeTimer({ mins: 1.1, elapsed: 1*mins + 7*secs });
+      assert.equal(timer.isLapsed(), true);
+    });
+
+    it(".isLapsed() false", function() {
+      timer = makeTimer({ mins: 1.1, elapsed: 1*mins + 5*secs });
+      assert.equal(timer.isLapsed(), false);
+    });
   });
 
   /**
@@ -107,6 +114,10 @@ describe('Timer', function() {
       assert.match(timer.getMessage(), /5/);
     });
   });
+
+  /**
+   * Test calls to speak()
+   */
 
   describe('speakTime()', function() {
     it("say '2 minutes to go'", function() {
