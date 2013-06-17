@@ -1,15 +1,18 @@
 #!/usr/bin/env node
 global.cli  = require('commander');
 var helpers = require('../lib/helpers');
-var moment  = require('moment');
 var Timer   = require('../lib/timer');
+var Log     = require('../lib/log');
+var moment  = require('moment');
 var Q       = require('q');
+Q.longStackSupport = true;
 
-var speak   = helpers.speak;
-var growl   = helpers.growl;
-var c       = helpers.c;
-var clear   = helpers.clear;
-var exec    = helpers.exec;
+var speak    = helpers.speak;
+var growl    = helpers.growl;
+var c        = helpers.c;
+var clear    = helpers.clear;
+var exec     = helpers.exec;
+var duration = helpers.duration;
 
 cli
   .option('-w, --work [n]', 'number of minutes to run [25]', 25)
@@ -33,17 +36,18 @@ Q.try(function() {
 
 }).then(function() {
   clear();
-  console.log("");
-  console.log("=> " + moment().format("HH:mma") + ", time for " + reason);
-  console.log("   " + cli.work + "m pomodoro (with " + cli.break + "m break)");
+  Log.line("");
+  Log.info(moment().format("HH:mma") + ", time for " + reason);
+  Log.line(duration(work.duration) + " pomodoro (with " + duration(snack.duration) + " break)");
   console.log("");
   return work.start();
 
 }).then(function() {
   say("Work done! Let's take a break");
-  console.log("");
-  console.log("=> " + moment().format("HH:mma") + ", time for a " + cli.break + "m break:");
-  console.log("");
+  Log.line("");
+  Log.info(moment().format("HH:mma") + ", time for a " + duration(snack.duration) + " break:");
+  Log.line("");
+  snack.initial();
   return Q.delay(3000);
 
 }).then(function() {
@@ -52,7 +56,8 @@ Q.try(function() {
 
 }).then(function() {
   say("All done!");
-  console.log("\n=> it's now " + moment().format("HH:mm"));
+  console.log("");
+  Log.info("it's now " + moment().format("HH:mm"));
 
 }).done();
 
