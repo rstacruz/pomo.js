@@ -1,7 +1,6 @@
 require('./setup');
 
 var logger = require('../lib/logger');
-var yaml = require('js-yaml');
 var fs = require('fs');
 var mins = 60 * 1000;
 
@@ -43,8 +42,8 @@ describe('logger', function() {
 
     assert.equal(args[0], 'x.txt');
 
-    assert.jsonEqual(yaml.load(args[1]), {
-      '2013-05-05 sunday': {
+    assert.jsonEqual(logger.load(args[1]), {
+      '2013-05-05 sun': {
         '1:00pm': 'working (35m + 5m)'
       }
     });
@@ -70,12 +69,12 @@ describe('logger', function() {
 
     var args = logger.write.thirdCall.args;
 
-    assert.jsonEqual(yaml.load(args[1]), {
-      '2013-05-05 sunday': {
+    assert.jsonEqual(logger.load(args[1]), {
+      '2013-05-05 sun': {
         '3:00pm': 'working (35m + 5m)',
         '3:30pm': 'working again (30m + 5m, stopped)'
       },
-      '2013-05-06 monday': {
+      '2013-05-06 mon': {
         '5:00am': 'also working (25m + 5m)'
       }
     });

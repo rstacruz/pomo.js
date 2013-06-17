@@ -37,11 +37,14 @@ Just add this to `~.tmux.conf`: (works almost exactly like in [pomo.rb][pomo-tmu
 Invoke it with `pomojs -l ~/.pomo.log` to log any pomodoros. Log file looks like 
 this:
 
-    "2013-05-03 tue":
-      "6:32am": "work on tests (25m + 5m)"
-      "7:05am": "do more things (25m + 2m 3s, stopped)"
-    "2013-05-04 wed":
-      "8:26am": "eat pizza (25m + 5m)"
+``` ini
+[2013-06-17 mon]
+6:14am = work on things (25m + 5m)
+7:05am = do great stuff (25m + 2m, stopped)
+
+[2013-06-18 tue]
+6:14am = eat pizza (25m + 5m)
+```
 
 ### Saving your settings
 
