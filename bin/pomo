@@ -31,7 +31,6 @@ var say = function(words) {
 };
 
 var work, snack;
-var dot = ' ⋅ ';
 
 Q.try(function() {
   work  = new Timer(cli.work,  { say: say });
@@ -41,8 +40,7 @@ Q.try(function() {
   say("" + moment().format("HH:mma") + ", " + work.duration.humanize() + " work for " + reason);
 
   clear();
-  Log.line("");
-  Log.info(moment().format("HH:mma") + dot + "time for " + reason + " (" + duration(work.duration) + ")");
+  Log.now("time for " + reason + " (" + duration(work.duration) + ")");
   Log.line("a " + duration(snack.duration) + " break follows");
   console.log("");
 
@@ -55,8 +53,7 @@ Q.try(function() {
 }).then(function() {
   say("Done! " + moment().format("HH:mma") + ", " + snack.duration.humanize() + " break");
 
-  Log.line("");
-  Log.info(moment().format("HH:mma") + dot + "time for a break (" + duration(snack.duration) + ")");
+  Log.now("time for a break (" + duration(snack.duration) + ")");
   Log.line("");
   snack.initial();
   return Q.delay(3000);
@@ -67,26 +64,14 @@ Q.try(function() {
 
 }).then(function() {
   say("All done!");
-  console.log("");
-  Log.info(moment().format("HH:mma") + dot + "done");
+  Log.now("done");
 
 }).done();
 
 // -----
 
-process.on('exit', printLog);
-process.on('SIGINT', function() { console.log(""); process.exit(0); });
-
-// -----
-
-function printLog() {
-  var str = '';
-  str += "  " + moment(total.start).format("HH:mm") + ": " + reason + "\n";
-  if (total.end) str += "  " + moment(total.end).format("HH:mm") + ": # break\n";
-  str += "  " + moment().format("HH:mm") + ": #";
-
-  Log.line("");
-  Log.info("time log (copied to clipboard):");
-  console.log(c(32, indent(str, '  ')));
-  copy(str);
-}
+process.on('SIGINT', function() {
+  console.log("");
+  Log.now('interrupted');
+  process.exit(0);
+});
