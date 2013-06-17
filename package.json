@@ -1,8 +1,8 @@
 {
   "name": "pomo",
-  "description": "",
+  "description": "Command-line timer, useful for Pomodoros.",
   "keywords": [
-    ""
+    "timer", "countdown", "stopwatch"
   ],
   "author": "Rico Sta. Cruz <hi@ricostacruz.com>",
   "version": "1.0.0",
