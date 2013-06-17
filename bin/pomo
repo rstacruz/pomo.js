@@ -38,6 +38,8 @@ Q.try(function() {
   snack = new Timer(cli.break, { color: 32, say: say });
 
 }).then(function() {
+  say("" + moment().format("HH:mma") + ", " + work.duration.humanize() + " work for " + reason);
+
   clear();
   Log.line("");
   Log.info(moment().format("HH:mma") + dot + "time for " + reason);
@@ -46,7 +48,8 @@ Q.try(function() {
   return work.start();
 
 }).then(function() {
-  say("Work done! Let's take a break");
+  say("Done! " + moment().format("HH:mma") + ", " + snack.duration.humanize() + " break");
+
   Log.line("");
   Log.info(moment().format("HH:mma") + dot + "time for a " + duration(snack.duration) + " break:");
   Log.line("");
