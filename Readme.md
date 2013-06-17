@@ -9,9 +9,9 @@ $ pomojs --help
 
 [![Build Status](https://travis-ci.org/rstacruz/pomo.js.png?branch=master)](https://travis-ci.org/rstacruz/pomo.js)
 
-### Features
+## Features
 
- * Command-line goodness (just type `pomojs`)
+ * Ridiculously simple (just type `pomojs`)
  * Configurable work and break durations (`pomojs --work 10 --break 2`)
  * Announces via text-to-speech ("5 minutes to go!")
  * Growls (via growlnotify)
@@ -19,12 +19,12 @@ $ pomojs --help
  * Tmux support (status bar integration)
  * Optional logging
 
-### Requirements
+## Requirements
 
  * node.js and OSX
  * growlnotify
 
-### Tmux integration
+## Tmux integration
 
 Just add this to `~.tmux.conf`: (works almost exactly like in [pomo.rb][pomo-tmux])
 
@@ -32,7 +32,7 @@ Just add this to `~.tmux.conf`: (works almost exactly like in [pomo.rb][pomo-tmu
 
 ...then invoke it with `pomojs -t`.
 
-### Logging
+## Logging
 
 Invoke it with `pomojs -l ~/.pomo.log` to log any pomodoros. Log file looks like 
 this:
@@ -46,7 +46,7 @@ this:
 6:14am = eat pizza (25m + 5m)
 ```
 
-### Saving your settings
+## Saving your settings
 
 Add this to your shell config, so that the next time you can invoke `pomo` with 
 preset settings:
@@ -66,13 +66,13 @@ alias longpomo="pomo -b 20"
 alias minipomo="pomo -w 10"
 ```
 
-### Also see
+## Also see
 
  * [visionmedia/pomo] - pomodoro task manager (ruby gem)
  * [pmd] - has OSX status bar integration
  * [pom] - shell script
 
-### Acknowledgements
+## Acknowledgements
 
 MIT
 
