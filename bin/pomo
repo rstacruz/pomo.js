@@ -1,20 +1,25 @@
 #!/usr/bin/env node
 global.cli  = require('commander');
-var helpers = require('../lib/helpers');
-var Timer   = require('../lib/timer');
-var Log     = require('../lib/log');
 var moment  = require('moment');
 var Q       = require('q');
-Q.longStackSupport = true;
+var util    = require('util');
+var Helpers = require('../lib/helpers');
+var Timer   = require('../lib/timer');
+var Log     = require('../lib/log');
 
-var speak    = helpers.speak;
-var growl    = helpers.growl;
-var c        = helpers.c;
-var indent   = helpers.indent;
-var clear    = helpers.clear;
-var copy     = helpers.copy;
-var exec     = helpers.exec;
-var duration = helpers.duration;
+var speak    = Helpers.speak;
+var growl    = Helpers.growl;
+var c        = Helpers.c;
+var indent   = Helpers.indent;
+var clear    = Helpers.clear;
+var copy     = Helpers.copy;
+var exec     = Helpers.exec;
+var duration = Helpers.duration;
+var format   = util.format;
+
+var work, snack;
+
+Q.longStackSupport = true;
 
 cli
   .option('-w, --work [n]', 'number of minutes to run [25]', 25)
@@ -30,19 +35,18 @@ var say = function(words) {
   growl(words);
 };
 
-var work, snack;
-
 Q.try(function() {
   work  = new Timer(cli.work,  { say: say });
   snack = new Timer(cli.break, { color: 32, say: say });
 
 }).then(function() {
-  say("" + moment().format("HH:mma") + ", " + work.duration.humanize() + " work for " + reason);
-
   clear();
-  Log.now("time for " + reason + " (" + duration(work.duration) + ")");
-  Log.line("a " + duration(snack.duration) + " break follows");
-  console.log("");
+
+  say(format("%s, %s work for %s", 
+     moment().format("HH:mma"), work.duration.humanize(), reason));
+
+  Log.now(format("time for %s (%s)\na %s break follows",
+    reason, duration(work.duration), duration(snack.duration)));
 
   work.initial();
   return Q.delay(1000);
@@ -51,10 +55,12 @@ Q.try(function() {
   return work.start();
 
 }).then(function() {
-  say("Done! " + moment().format("HH:mma") + ", " + snack.duration.humanize() + " break");
+  say(format("Done! %s, %s break",
+    moment().format("HH:mma"), snack.duration.humanize()));
 
-  Log.now("time for a break (" + duration(snack.duration) + ")");
-  Log.line("");
+  Log.now(format("time for a break (%s)",
+    duration(snack.duration)));
+
   snack.initial();
   return Q.delay(3000);
 
