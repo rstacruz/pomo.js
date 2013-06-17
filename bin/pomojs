@@ -25,6 +25,7 @@ cli
   .option('-w, --work [mins]', 'work timer length [25]', 25)
   .option('-b, --break [mins]', 'break timer length, 0 to disable [5]', 5)
   .option('-d, --duration [mins]', 'shortcut for -w <secs> -b 0', null)
+  .option('-t, --tmux', 'enable tmux reporting')
   .option('-q, --quiet', 'no sounds')
   .on('--help', function() {
     console.log('  examples:');
@@ -38,7 +39,9 @@ cli
 
 var reason = cli.args.join(' ') || 'work';
 var total  = { start: new Date(), end: null };
-var reporters = [ Landing, Tmux ];
+var reporters = [ Landing ];
+
+if (cli.tmux) { reporters.push(Tmux); }
 if (cli.duration) { cli.work = cli.duration; cli.break = 0; }
 
 var say = function(words) {
