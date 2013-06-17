@@ -11,11 +11,12 @@ $ pomojs --help
 
 ### Features
 
- * Command-line goodness
+ * Command-line goodness (just type `pomojs`)
  * Configurable work and break durations (`pomojs --work 10 --break 2`)
  * Announces via text-to-speech ("5 minutes to go!")
- * Growls
- * Tmux support
+ * Growls (via growlnotify)
+ * No support for long breaks (this is a feature. problem?)
+ * Tmux support (status bar integration)
 
 ### Requirements
 
