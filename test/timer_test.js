@@ -1,25 +1,6 @@
-var Moment = require('moment');
-var chai   = require('chai');
-var sinon  = require('sinon');
-var Q      = require('q');
-var assert = chai.assert;
+require('./setup');
 
-Q.longStackSupport = true;
-
-var Timer   = require('../lib/timer');
-var minutes = 6e4;
-
-/* Promise helper */
-global.pt = function(fn) {
-  return function(done) {
-    var promise = fn.apply(this);
-    if (!promise.then) return done(new Error("Object "+promise+" is not a promise"));
-
-    promise.then(
-      function(data) { done(undefined, data); },
-      function(err) { done(err); });
-  };
-};
+var Timer = require('../lib/timer');
 
 describe('Timer', function() {
   var timer;
@@ -27,9 +8,6 @@ describe('Timer', function() {
 
   beforeEach(function() {
     say = sinon.spy();
-  });
-
-  beforeEach(function() {
     timer = new Timer(10, { say: function() {}, landing: {} });
   });
 
@@ -38,7 +16,7 @@ describe('Timer', function() {
   });
 
   it('.elapsed', pt(function() {
-    return Q['try'](function() {
+    return Q.try(function() {
       setTime('May 5 2013 03:00');
       return timer.start();
 
@@ -46,11 +24,26 @@ describe('Timer', function() {
       setTime('May 5 2013 03:02');
       assert.equal(timer.elapsed(), 2 * minutes);
 
-      setTime('May 5 2013 04:00');
+      setTime('May 5 2013 04:00'); /* Abort */
     });
   }));
 
-  // ----
+  it('.isLapsed', pt(function() {
+    return Q.try(function() {
+      setTime('May 5 2013 03:00');
+      return timer.start();
+
+    }).then(0, 0, function() {
+      assert.equal(timer.isLapsed(), false);
+
+      setTime('May 5 2013 04:00');
+      assert.equal(timer.isLapsed(), true);
+    });
+  }));
+
+  /**
+   * Move in time by stubbing timer.now
+   */
 
   function setTime(date) {
     if (timer.now.restore) timer.now.restore();
