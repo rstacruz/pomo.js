@@ -45,8 +45,8 @@ var say = function(words) {
 };
 
 Q.try(function() {
-  work  = new Timer(cli.work,  { say: say, progress: Landing });
-  snack = new Timer(cli.break, { color: 32, say: say, progress: Landing });
+  work  = new Timer(cli.work,  { mode: 'work',  say: say, progress: Landing });
+  snack = new Timer(cli.break, { mode: 'break', say: say, progress: Landing });
 
 }).then(function() {
   clear();
