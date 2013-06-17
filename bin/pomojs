@@ -21,20 +21,23 @@ Q.longStackSupport = true;
 cli
   .usage('[reason]')
   .version(require('../package').version)
-  .option('-w, --work [n]', 'number of minutes to run [25]', 25)
-  .option('-b, --break [n]', 'number of minutes for a break (0 to disable) [5]', 5)
+  .option('-w, --work [mins]', 'work timer length [25]', 25)
+  .option('-b, --break [mins]', 'break timer length, 0 to disable [5]', 5)
+  .option('-d, --duration [mins]', 'shortcut for -w <secs> -b 0', null)
   .option('-q, --quiet', 'no sounds')
   .on('--help', function() {
     console.log('  examples:');
     console.log('');
-    console.log('    $ pomojs              # start a timer');
-    console.log('    $ pomojs Fix stuff    # reason');
-    console.log('    $ pomojs -w 10        # 10-minute pomodoro');
+    console.log('    $ pomojs                # start a timer');
+    console.log('    $ pomojs "Fix stuff"    # reason');
+    console.log('    $ pomojs -w 10          # 10-minute pomodoro');
+    console.log('    $ pomojs -d 5 "Tea"     # Simple tea timer (no break)');
   })
   .parse(process.argv);
 
 var reason = cli.args.join(' ') || 'work';
 var total  = { start: new Date(), end: null };
+if (cli.duration) { cli.work = cli.duration; cli.break = 0; }
 
 var say = function(words) {
   if (!cli.quiet) speak(words);
