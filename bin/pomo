@@ -60,7 +60,7 @@ Q.try(function() {
 }).then(function() {
   say("All done!");
   console.log("");
-  Log.info("it's now " + moment().format("HH:mm"));
+  Log.info(moment().format("HH:mma") + dot + "done");
 
 }).done();
 
