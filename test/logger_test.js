@@ -14,11 +14,11 @@ describe('logger', function() {
   beforeEach(function() {
     data = '';
 
-    sinon.stub(logger, 'write', function(file, data_) {
-      data = data_;
+    sinon.stub(logger, 'write', function(file, newdata) {
+      data = newdata;
     });
     sinon.stub(logger, 'read', function(file) {
-      return yaml.load(data);
+      return data;
     });
   });
 
@@ -35,7 +35,7 @@ describe('logger', function() {
     logger('x.txt', {
       reason: 'working',
       duration: 35000, 'break': 5000,
-      date: moment('May 5, 2013').toDate()
+      date: moment('May 5, 2013 1:00 pm').toDate()
     });
 
     var args = logger.write.firstCall.args;
@@ -43,9 +43,9 @@ describe('logger', function() {
     assert.equal(args[0], 'x.txt');
 
     assert.jsonEqual(yaml.load(args[1]), {
-      '2013/05/05 Sunday': [
-        'working'
-      ]
+      '2013-05-05 sunday': {
+        '1:00pm': 'working'
+      }
     });
   });
 
@@ -53,29 +53,29 @@ describe('logger', function() {
     logger('x.txt', {
       reason: 'working',
       duration: 35000, 'break': 5000,
-      date: moment('May 5, 2013').toDate()
+      date: moment('May 5, 2013 3:00 pm').toDate()
     });
     logger('x.txt', {
       reason: 'working again',
       duration: 35000, 'break': 5000,
-      date: moment('May 5, 2013').toDate()
+      date: moment('May 5, 2013 3:30 pm').toDate()
     });
     logger('x.txt', {
       reason: 'also working',
       duration: 35000, 'break': 5000,
-      date: moment('May 6, 2013').toDate()
+      date: moment('May 6, 2013 5:00 am').toDate()
     });
 
     var args = logger.write.thirdCall.args;
 
     assert.jsonEqual(yaml.load(args[1]), {
-      '2013/05/05 Sunday': [
-        'working',
-        'working again',
-      ],
-      '2013/05/06 Monday': [
-        'also working'
-      ]
+      '2013-05-05 sunday': {
+        '3:00pm': 'working',
+        '3:30pm': 'working again'
+      },
+      '2013-05-06 monday': {
+        '5:00am': 'also working'
+      }
     });
   });
 });
