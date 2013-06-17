@@ -51,7 +51,7 @@ Q.try(function() {
 }).then(function() {
   clear();
 
-  say(format("%s, %s to do %s", 
+  say(format("%s, %s for %s", 
      moment().format("h:mm a"), work.duration.humanize(), reason));
 
   if (cli.break > 0) {
