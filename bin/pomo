@@ -1,19 +1,16 @@
 #!/usr/bin/env node
-global.cli  = require('commander');
-var moment  = require('moment');
-var Q       = require('q');
-var util    = require('util');
-var Helpers = require('../lib/helpers');
-var Timer   = require('../lib/timer');
-var Log     = require('../lib/log');
+global.cli   = require('commander');
+var moment   = require('moment');
+var Q        = require('q');
+var util     = require('util');
+var Helpers  = require('../lib/helpers');
+var Timer    = require('../lib/timer');
+var Log      = require('../lib/log');
+var Landing  = require('../lib/landing');
 
 var speak    = Helpers.speak;
 var growl    = Helpers.growl;
-var c        = Helpers.c;
-var indent   = Helpers.indent;
 var clear    = Helpers.clear;
-var copy     = Helpers.copy;
-var exec     = Helpers.exec;
 var duration = Helpers.duration;
 var format   = util.format;
 
@@ -36,8 +33,8 @@ var say = function(words) {
 };
 
 Q.try(function() {
-  work  = new Timer(cli.work,  { say: say });
-  snack = new Timer(cli.break, { color: 32, say: say });
+  work  = new Timer(cli.work,  { say: say, progress: Landing });
+  snack = new Timer(cli.break, { color: 32, say: say, progress: Landing });
 
 }).then(function() {
   clear();
