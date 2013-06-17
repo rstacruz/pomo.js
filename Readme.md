@@ -9,26 +9,36 @@ $ pomojs --help
 
 [![Build Status](https://travis-ci.org/rstacruz/pomo.js.png?branch=master)](https://travis-ci.org/rstacruz/pomo.js)
 
-Features:
+### Features
 
  * Command-line goodness
  * Configurable work and break durations (`pomojs --work 10 --break 2`)
  * Announces via text-to-speech ("5 minutes to go!")
  * Growls
+ * Tmux support
 
-Requirements:
+### Requirements
 
  * node.js and OSX
  * growlnotify
 
-Also check out:
+### Tmux integration
+
+Just add this to `~.tmux.conf`: (works almost exactly like in [pomo.rb][pomo-tmux])
+
+     set-option -g status-right '#(cat ~/.pomo_stat)'
+
+### Also see
 
  * [visionmedia/pomo] - pomodoro task manager (ruby gem)
  * [pmd] - has OSX status bar integration
  * [pom] - shell script
+
+### Acknowledgements
 
 MIT
 
 [visionmedia/pomo]: https://github.com/visionmedia/pomo
 [pmd]: http://me.dt.in.th/page/pmd
 [pom]: https://github.com/tobym/pom
+[pomo-tmux]: https://github.com/visionmedia/pomo#tmux-status-bar-integration
