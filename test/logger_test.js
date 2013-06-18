@@ -44,7 +44,7 @@ describe('logger', function() {
 
     assert.jsonEqual(logger.load(args[1]), {
       '2013-05-05 sun': {
-        '1:00pm': 'working (35m + 5m)'
+        '1:00pm - 1:40pm': 'working (35m + 5m)'
       }
     });
   });
@@ -59,7 +59,7 @@ describe('logger', function() {
     var args = logger.write.firstCall.args;
     assert.jsonEqual(logger.load(args[1]), {
       '2013-05-05 sun': {
-        '1:00pm': 'working (35m)'
+        '1:00pm - 1:35pm': 'working (35m)'
       }
     });
   });
@@ -86,11 +86,11 @@ describe('logger', function() {
 
     assert.jsonEqual(logger.load(args[1]), {
       '2013-05-05 sun': {
-        '3:00pm': 'working (35m + 5m)',
-        '3:30pm': 'working again (30m + 5m, stopped)'
+        '3:00pm - 3:40pm': 'working (35m + 5m)',
+        '3:30pm - 4:05pm': 'working again (30m + 5m, stopped)'
       },
       '2013-05-06 mon': {
-        '5:00am': 'also working (25m + 5m)'
+        '5:00am - 5:30am': 'also working (25m + 5m)'
       }
     });
   });
