@@ -1,3 +1,7 @@
+## v1.0.7 - unreleased
+
+ * Update log format to show duration (eg, `6:55am - 7:25am`).
+
 ## v1.0.6 - June 18, 2013
 
  * Logging via `pomojs -l <file>`.
