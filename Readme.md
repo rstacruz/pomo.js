@@ -53,11 +53,11 @@ this:
 
 ``` ini
 [2013-06-17 mon]
-6:14am = work on things (25m + 5m)
-7:05am = do great stuff (25m + 2m, stopped)
+6:14am - 6:44am = work on things (25m + 5m)
+7:05am - 7:32am = do great stuff (25m + 2m, stopped)
 
 [2013-06-18 tue]
-6:14am = eat pizza (25m + 5m)
+6:14am - 6:44am = eat pizza (25m + 5m)
 ```
 
 #### Saving your settings
