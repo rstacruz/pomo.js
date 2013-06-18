@@ -118,8 +118,10 @@ process.on('SIGINT', function() {
 
 function logEntry(interrupted) {
   if (!cli.log) return;
+  if (!work.startDate) return;
   Logger(cli.log, {
     reason: reason,
+    date: work.startDate,
     duration: work.elapsed(),
     'break': snack.elapsed(),
     interrupted: !!interrupted
