@@ -5,6 +5,16 @@ var Runner = require('../lib/runner');
 var secs = 1000;
 
 describe('Runner', function() {
+  var clock;
+
+  beforeEach(function() {
+    clock = sinon.useFakeTimers();
+  });
+
+  afterEach(function() {
+    clock.restore();
+  });
+
   this.timeout(30*secs);
 
   it('should work', function(done) {
@@ -13,19 +23,22 @@ describe('Runner', function() {
 
     runner.on({
       'start': function() {
+        process.stdout.write(':');
         events.push(['start', v(arguments)]);
       },
 
       'timer': function(mode, perc, elapsed, remaining, words) {
-        process.stdout.write('.');
         events.push(['timer', [ mode, r(perc, 0.1), r(elapsed, 500), r(remaining, 500), words ] ]);
+        process.nextTick(function() { clock.tick(1001); });
       },
 
       'snack': function() {
         events.push(['snack', v(arguments)]);
+        process.nextTick(function() { clock.tick(3001); });
       },
 
       'finish': function() {
+        process.stdout.write(':');
         events.push(['finish', v(arguments)]);
 
         assert.jsonEqual(events, [
@@ -52,7 +65,9 @@ describe('Runner', function() {
 
         done();
       }
-    }).run();
+    });
+
+    runner.run();
   });
 });
 
