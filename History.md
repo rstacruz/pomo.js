@@ -1,6 +1,6 @@
 ## v1.1.1 - unreleased
 
- * Nothing yet
+ * Fix typo in `--help` where it read "secs" instead of "mins".
 
 ## v1.1.0 - June 20, 2013
 

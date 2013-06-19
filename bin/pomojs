@@ -19,7 +19,7 @@ cli
   .version(require('../package').version)
   .option('-w, --work [mins]', 'work timer length [25]', 25)
   .option('-b, --break [mins]', 'break timer length, 0 to disable [5]', 5)
-  .option('-d, --duration [mins]', 'shortcut for -w <secs> -b 0', null)
+  .option('-d, --duration [mins]', 'shortcut for -w <mins> -b 0', null)
   .option('-t, --tmux', 'enable tmux reporting')
   .option('-l, --log [file]', 'log to this file')
   .option('-q, --quiet', 'no sounds')
