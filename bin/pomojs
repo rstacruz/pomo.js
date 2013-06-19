@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+// vim:ft=javascript
+
 global.cli   = require('commander');
 var moment   = require('moment');
 var Q        = require('q');
@@ -9,6 +11,7 @@ var Print    = require('../lib/print');
 var Landing  = require('../lib/landing');
 var Tmux     = require('../lib/tmux');
 var Logger   = require('../lib/logger');
+var Runner   = require('../lib/runner');
 
 var speak    = Helpers.speak;
 var growl    = Helpers.growl;
@@ -40,10 +43,6 @@ cli
   .parse(process.argv);
 
 var reason = cli.args.join(' ') || 'work';
-var total  = { start: new Date(), end: null };
-var reporters = [ Landing ];
-
-if (cli.tmux) { reporters.push(Tmux); }
 if (cli.duration) { cli.work = cli.duration; cli.break = 0; }
 
 var say = function(words) {
@@ -51,80 +50,85 @@ var say = function(words) {
   growl(words);
 };
 
-Q.try(function() {
-  work  = new Timer(cli.work,  { mode: 'work',  say: say, progress: reporters });
-  snack = new Timer(cli.break, { mode: 'break', say: say, progress: reporters });
+var progress = function() {
+  if (cli.tmux) Tmux.apply(this, arguments);
+  Landing.apply(this, arguments);
+};
 
-}).then(function() {
-  clear();
+var pomo = new Runner(cli.work, cli.break, { reason: reason });
 
-  say(format("%s, %s for %s", 
-     moment().format("h:mm a"), work.duration.humanize(), reason));
+pomo.on({
+  'start': function() {
+    clear();
 
-  if (cli.break > 0) {
-    Print.now(format("time for %s (%s)\na %s break follows",
-      reason, duration(work.duration), duration(snack.duration)));
-  } else {
-    Print.now(format("time for %s (%s)",
-      reason, duration(work.duration)));
+    say(format("%s, %s for %s", 
+       moment(pomo.now()).format("h:mm a"),
+       pomo.work.duration.humanize(),
+       pomo.reason));
+
+    var str = format("time for %s (%s)",
+      reason, duration(pomo.work.duration));
+
+    if (pomo.snack)
+      str += format("\na %s break follows",
+        duration(pomo.snack.duration));
+
+    Print.now(str);
+  },
+
+  'snack': function() {
+    say(format("Done! %s, break for %s",
+      moment().format("hh:mm a"), pomo.snack.duration.humanize()));
+
+    Print.now(format("time for a break (%s)",
+      duration(pomo.snack.duration)));
+  },
+
+  'finish': function() {
+    say(pomo.reason + ": all done!");
+    logEntry(pomo);
+    Print.now("done");
+  },
+
+  'timer:speak': function(mode, words) {
+    say(words);
+  },
+
+  'timer:initial': function(mode) {
+    progress(mode, 0, 0, 0);
+  },
+
+  'timer:update': function(mode, perc, elapsed, remaining) {
+    progress(mode, perc, elapsed, remaining);
+  },
+
+  'timer:finish': function(mode, elapsed) {
+    progress(mode, 1, elapsed, 0);
+  },
+
+  'interrupt': function() {
+    progress(null);
+
+    console.log("");
+    Print.now("interrupted");
+    logEntry(pomo);
   }
-
-  work.initial();
-  return Q.delay(1000);
-
-}).then(function() {
-  return work.start();
-
-}).then(function() {
-  if (cli.break <= 0) return;
-
-  say(format("Done! %s, break for %s",
-    moment().format("hh:mm a"), snack.duration.humanize()));
-
-  Print.now(format("time for a break (%s)",
-    duration(snack.duration)));
-
-  snack.initial();
-
-  return Q.delay(3000)
-  .then(function() {
-    total.end = new Date();
-    return snack.start();
-  });
-
-}).then(function() {
-  say(reason + ": all done!");
-  Print.now("done");
-  work.abort();
-  logEntry();
-
-}).done();
-
-/**
- * It's a trap.
- */
-
-process.on('SIGINT', function() {
-  console.log("");
-  work.abort();
-  Print.now('interrupted');
-  logEntry(true);
-  process.exit(0);
-});
+}).run();
 
 /**
  * Logs the current entry.
  */
 
-function logEntry(interrupted) {
+function logEntry(pomo) {
   if (!cli.log) return;
-  if (!work.startDate) return;
+  if (!pomo.work.startDate) return;
+
   Logger(cli.log, {
-    reason: reason,
-    date: work.startDate,
-    duration: work.elapsed(),
-    'break': snack.elapsed(),
-    interrupted: !!interrupted
+    reason      : pomo.reason,
+    date        : pomo.start,
+    duration    : pomo.work.elapsed(),
+    'break'     : pomo.snack.elapsed(),
+    interrupted : pomo.interrupted
   });
 }
 
