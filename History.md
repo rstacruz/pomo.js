@@ -1,6 +1,8 @@
 ## v1.1.1 - unreleased
 
- * Fix typo in `--help` where it read "secs" instead of "mins".
+ * Fix typo in `--help` where it read "secs" instead of "mins"
+ * Fix bug where the Tmux status doesn't clear on exit sometimes
+ * The '3, 2, 1' countdown is now not being growled.
 
 ## v1.1.0 - June 20, 2013
 
@@ -11,7 +13,7 @@
 
 ## v1.0.7 - June 19, 2013
 
- * Update log format to show duration (eg, `6:55am - 7:25am`).
+ * Update log format to show duration (eg, `6:55am - 7:25am`)
 
 ## v1.0.6 - June 18, 2013
 
