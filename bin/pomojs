@@ -26,10 +26,10 @@ cli
   .on('--help', function() {
     console.log('  examples:');
     console.log('');
-    console.log('    $ pomojs                # start a timer');
-    console.log('    $ pomojs "Fix stuff"    # reason');
-    console.log('    $ pomojs -w 10          # 10-minute pomodoro');
-    console.log('    $ pomojs -d 5 "Tea"     # Simple tea timer (no break)');
+    console.log('    $ pomojs               # start a timer');
+    console.log('    $ pomojs "Fix stuff"   # with reason');
+    console.log('    $ pomojs -w 10         # 10-minute pomodoro');
+    console.log('    $ pomojs -d 5 "Tea"    # Simple tea timer (no break)');
   })
   .parse(process.argv);
 
