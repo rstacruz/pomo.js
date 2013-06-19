@@ -1,22 +1,16 @@
 #!/usr/bin/env node
+// vim:ft=javascript
+
 global.cli   = require('commander');
 var moment   = require('moment');
 var Q        = require('q');
 var util     = require('util');
 var Helpers  = require('../lib/helpers');
-var Timer    = require('../lib/timer');
-var Print    = require('../lib/print');
-var Landing  = require('../lib/landing');
-var Tmux     = require('../lib/tmux');
-var Logger   = require('../lib/logger');
-
-var speak    = Helpers.speak;
-var growl    = Helpers.growl;
-var clear    = Helpers.clear;
-var duration = Helpers.duration;
-var format   = util.format;
-
-var work, snack;
+var Landing  = require('../lib/reporters/landing');
+var Tmux     = require('../lib/reporters/tmux');
+var Logger   = require('../lib/reporters/logger');
+var Speaker  = require('../lib/reporters/speaker');
+var Runner   = require('../lib/runner');
 
 Q.longStackSupport = true;
 
@@ -39,92 +33,16 @@ cli
   })
   .parse(process.argv);
 
-var reason = cli.args.join(' ') || 'work';
-var total  = { start: new Date(), end: null };
-var reporters = [ Landing ];
-
-if (cli.tmux) { reporters.push(Tmux); }
 if (cli.duration) { cli.work = cli.duration; cli.break = 0; }
 
-var say = function(words) {
-  if (!cli.quiet) speak(words);
-  growl(words);
-};
+var pomo = new Runner(cli.work, cli.break, { reason: cli.args.join(' ') || 'work' });
 
-Q.try(function() {
-  work  = new Timer(cli.work,  { mode: 'work',  say: say, progress: reporters });
-  snack = new Timer(cli.break, { mode: 'break', say: say, progress: reporters });
+if (cli.log) Logger.extend(pomo, cli.log);
+if (cli.tmux) Tmux.extend(pomo, { file: '~/.pomo_stat' });
+Speaker.extend(pomo, { quiet: cli.quiet });
+Landing.extend(pomo);
 
-}).then(function() {
-  clear();
+// ----------------------------------------------------------------------------
+// Speaking / growling
 
-  say(format("%s, %s for %s", 
-     moment().format("h:mm a"), work.duration.humanize(), reason));
-
-  if (cli.break > 0) {
-    Print.now(format("time for %s (%s)\na %s break follows",
-      reason, duration(work.duration), duration(snack.duration)));
-  } else {
-    Print.now(format("time for %s (%s)",
-      reason, duration(work.duration)));
-  }
-
-  work.initial();
-  return Q.delay(1000);
-
-}).then(function() {
-  return work.start();
-
-}).then(function() {
-  if (cli.break <= 0) return;
-
-  say(format("Done! %s, break for %s",
-    moment().format("hh:mm a"), snack.duration.humanize()));
-
-  Print.now(format("time for a break (%s)",
-    duration(snack.duration)));
-
-  snack.initial();
-
-  return Q.delay(3000)
-  .then(function() {
-    total.end = new Date();
-    return snack.start();
-  });
-
-}).then(function() {
-  say(reason + ": all done!");
-  Print.now("done");
-  work.abort();
-  logEntry();
-
-}).done();
-
-/**
- * It's a trap.
- */
-
-process.on('SIGINT', function() {
-  console.log("");
-  work.abort();
-  Print.now('interrupted');
-  logEntry(true);
-  process.exit(0);
-});
-
-/**
- * Logs the current entry.
- */
-
-function logEntry(interrupted) {
-  if (!cli.log) return;
-  if (!work.startDate) return;
-  Logger(cli.log, {
-    reason: reason,
-    date: work.startDate,
-    duration: work.elapsed(),
-    'break': snack.elapsed(),
-    interrupted: !!interrupted
-  });
-}
-
+pomo.run();

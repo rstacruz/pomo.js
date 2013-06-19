@@ -126,20 +126,6 @@ describe('Timer', function() {
   });
 
   /**
-   * Test calls to speak()
-   */
-
-  describe('speakTime()', function() {
-    it("say '2 minutes to go'", function() {
-      timer = makeTimer({ mins: 2.1, elapsed: 6*secs });
-      timer.speakTime();
-
-      assert.equal(say.callCount, 1);
-      assert.match(say.firstCall.args[0], /2 minutes to go/);
-    });
-  });
-
-  /**
    * Create a mock timer object
    */
 
