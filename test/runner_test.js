@@ -1,4 +1,5 @@
 require('./setup');
+if (process.env['fast']) return;
 
 var Runner = require('../lib/runner');
 var secs = 1000;
