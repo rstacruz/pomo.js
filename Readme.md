@@ -21,13 +21,13 @@ $ pomojs --help
 
 ### Features
 
- * Ridiculously simple (just type `pomojs`)
- * Configurable work and break durations (`pomojs --work 10 --break 2`)
- * Announces via text-to-speech ("5 minutes to go!")
- * Growls (via growlnotify)
- * No support for long breaks (this is a feature. problem?)
- * Tmux support (status bar integration, shown above)
- * Optional logging
+ * ridiculously simple (just type `pomojs`)
+ * configurable work and break durations (`pomojs --work 10 --break 2`)
+ * announces via text-to-speech ("5 minutes to go!")
+ * notifications
+ * no support for long breaks (this is a feature. problem?)
+ * tmux support (status bar integration, shown above)
+ * optional logging
 
 ### Requirements
 
