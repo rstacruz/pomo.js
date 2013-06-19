@@ -3,6 +3,7 @@
  * Fix typo in `--help` where it read "secs" instead of "mins"
  * Fix bug where the Tmux status doesn't clear on exit sometimes
  * The '3, 2, 1' countdown is now not being growled.
+ * Fix logging error that happens when running break-less pomodoros.
 
 ## v1.1.0 - June 20, 2013
 
