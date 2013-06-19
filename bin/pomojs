@@ -55,14 +55,12 @@ var pomo = new Runner(cli.work, cli.break, { reason: reason });
 if (cli.tmux) Tmux(pomo);
 if (cli.log) Logger(pomo, cli.log);
 
+// ----------------------------------------------------------------------------
+// Printing
+
 pomo.on({
   'start': function() {
     clear();
-
-    say(format("%s, %s for %s", 
-       moment(pomo.now()).format("h:mm a"),
-       pomo.work.duration.humanize(),
-       pomo.reason));
 
     var str = format("time for %s (%s)",
       reason, duration(pomo.work.duration));
@@ -76,9 +74,6 @@ pomo.on({
 
   // Work-to-snack transition
   'snack': function() {
-    say(format("Done! %s, break for %s",
-      moment().format("hh:mm a"), pomo.snack.duration.humanize()));
-
     Print.now(format("time for a break (%s)",
       duration(pomo.snack.duration)));
   },
@@ -90,8 +85,6 @@ pomo.on({
 
   // All done
   'finish': function() {
-    say(pomo.reason + ": all done!");
-    logEntry(pomo);
     Print.now("done");
   },
 
@@ -100,5 +93,28 @@ pomo.on({
     Print.now("interrupted");
   }
 });
+
+// ----------------------------------------------------------------------------
+// Speaking / growling
+
+pomo.on({
+  'start': function() {
+    say(format("%s, %s for %s", 
+       moment(pomo.now()).format("h:mm a"),
+       pomo.work.duration.humanize(),
+       pomo.reason));
+  },
+  'snack': function() {
+    say(format("Done! %s, break for %s",
+      moment().format("hh:mm a"), pomo.snack.duration.humanize()));
+  },
+  'finish': function() {
+    say(pomo.reason + ": all done!");
+  },
+  'timer': function(_, _, _, _, words) {
+    if (words) say(words);
+  }
+});
+
 
 pomo.run();
