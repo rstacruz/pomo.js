@@ -53,6 +53,7 @@ var say = function(words) {
 var pomo = new Runner(cli.work, cli.break, { reason: reason });
 
 if (cli.tmux) Tmux(pomo);
+if (cli.log) Logger(pomo, cli.log);
 
 pomo.on({
   'start': function() {
@@ -97,27 +98,7 @@ pomo.on({
   'interrupt': function() {
     console.log("");
     Print.now("interrupted");
-    logEntry(pomo);
   }
 });
 
 pomo.run();
-
-/**
- * Logs the current entry.
- */
-
-function logEntry(pomo) {
-  if (!cli.log) return;
-  if (!pomo.work.startDate) return;
-
-  Logger(cli.log, {
-    reason      : pomo.reason,
-    start       : pomo.start,
-    end         : pomo.end,
-    duration    : pomo.work.elapsed(),
-    'break'     : pomo.snack.elapsed(),
-    interrupted : pomo.interrupted
-  });
-}
-
