@@ -50,12 +50,9 @@ var say = function(words) {
   growl(words);
 };
 
-var progress = function() {
-  if (cli.tmux) Tmux.apply(this, arguments);
-  Landing.apply(this, arguments);
-};
-
 var pomo = new Runner(cli.work, cli.break, { reason: reason });
+
+if (cli.tmux) Tmux(pomo);
 
 pomo.on({
   'start': function() {
@@ -86,7 +83,7 @@ pomo.on({
   },
 
   'timer': function(mode, perc, elapsed, remaining, words) {
-    progress(mode, perc, elapsed, remaining);
+    Landing.apply(this, arguments);
     if (words) say(words);
   },
 
@@ -104,7 +101,9 @@ pomo.on({
     Print.now("interrupted");
     logEntry(pomo);
   }
-}).run();
+});
+
+pomo.run();
 
 /**
  * Logs the current entry.
