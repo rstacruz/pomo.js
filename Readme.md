@@ -26,7 +26,7 @@ $ pomojs --help
  * Announces via text-to-speech ("5 minutes to go!")
  * Growls (via growlnotify)
  * No support for long breaks (this is a feature. problem?)
- * Tmux support (status bar integration)
+ * Tmux support (status bar integration, shown above)
  * Optional logging
 
 ### Requirements
