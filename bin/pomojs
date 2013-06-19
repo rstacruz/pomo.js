@@ -95,8 +95,6 @@ pomo.on({
   },
 
   'interrupt': function() {
-    progress(null);
-
     console.log("");
     Print.now("interrupted");
     logEntry(pomo);
