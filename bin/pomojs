@@ -4,6 +4,7 @@
 global.cli   = require('commander');
 var moment   = require('moment');
 var Q        = require('q');
+var _        = require('underscore');
 var util     = require('util');
 var Helpers  = require('../lib/helpers');
 var Landing  = require('../lib/reporters/landing');
@@ -34,6 +35,14 @@ cli
   .parse(process.argv);
 
 if (cli.duration) { cli.work = cli.duration; cli.break = 0; }
+
+// Account for numbers, eg, `pomojs 23 2 do things`
+if (cli.args[0] && +cli.args[0] > 0 && _(cli.rawArgs).intersection(['--work','-w']).length === 0) {
+  cli.work = cli.args.shift();
+  if (cli.args[0] && +cli.args[0] >= 0 && _(cli.rawArgs).intersection(['--break','-b']).length === 0) {
+    cli.break = cli.args.shift();
+  }
+}
 
 var pomo = new Runner(cli.work, cli.break, { reason: cli.args.join(' ') || 'work' });
 

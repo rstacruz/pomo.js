@@ -2,8 +2,10 @@
 
  * Fix typo in `--help` where it read "secs" instead of "mins"
  * Fix bug where the Tmux status doesn't clear on exit sometimes
- * The '3, 2, 1' countdown is now not being growled.
  * Fix logging error that happens when running break-less pomodoros.
+ * Fix `-b 0` not working in certain circumstances.
+ * The '3, 2, 1' countdown is now not being growled.
+ * Add a shortcut `pomojs 25 10` to run a 25min + 10min timer.
 
 ## v1.1.0 - June 20, 2013
 
