@@ -31,8 +31,13 @@ $ pomojs --help
 
 ### Requirements
 
- * node.js and OSX
- * growlnotify
+ * node.js (required)
+ * osx 10.8+: `gem install terminal-notifier`
+ * linux: `sudo apt-get install libnotify-bin`
+ * osx (others): [growlnotify]
+ * linux: `sudo apt-get install espeak`
+
+see [growl] readme for growl requirements.
 
 ----
 
@@ -99,3 +104,5 @@ Tomato icon by artbees. (via [iconfinder.net][icon])
 [pom]: https://github.com/tobym/pom
 [pomo-tmux]: https://github.com/visionmedia/pomo#tmux-status-bar-integration
 [icon]: http://www.iconfinder.com/icondetails/56019/128/tomato_vegetable_icon
+[growl]: https://npmjs.org/package/growl
+[growlnotify]: http://growl.info/downloads
