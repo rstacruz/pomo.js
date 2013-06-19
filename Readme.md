@@ -1,3 +1,5 @@
+<img src='https://rstacruz.github.io/pomo.js/tomato.png' align='right' alt='pomo.js' />
+
 # Pomo.js
 
 ```
