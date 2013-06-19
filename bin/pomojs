@@ -8,10 +8,9 @@ var util     = require('util');
 var Helpers  = require('../lib/helpers');
 var Timer    = require('../lib/timer');
 var Print    = require('../lib/print');
-var Landing  = require('../lib/landing');
-var Tmux     = require('../lib/tmux');
+var Landing  = require('../lib/reporters/landing');
+var Tmux     = require('../lib/reporters/tmux');
 var Logger   = require('../lib/logger');
-var Runner   = require('../lib/runner');
 
 var speak    = Helpers.speak;
 var growl    = Helpers.growl;
@@ -52,47 +51,9 @@ var say = function(words) {
 
 var pomo = new Runner(cli.work, cli.break, { reason: reason });
 
-if (cli.tmux) Tmux(pomo);
 if (cli.log) Logger(pomo, cli.log);
-
-// ----------------------------------------------------------------------------
-// Printing
-
-pomo.on({
-  'start': function() {
-    clear();
-
-    var str = format("time for %s (%s)",
-      reason, duration(pomo.work.duration));
-
-    if (pomo.snack)
-      str += format("\na %s break follows",
-        duration(pomo.snack.duration));
-
-    Print.now(str);
-  },
-
-  // Work-to-snack transition
-  'snack': function() {
-    Print.now(format("time for a break (%s)",
-      duration(pomo.snack.duration)));
-  },
-
-  'timer': function(mode, perc, elapsed, remaining, words) {
-    Landing.apply(this, arguments);
-    if (words) say(words);
-  },
-
-  // All done
-  'finish': function() {
-    Print.now("done");
-  },
-
-  'interrupt': function() {
-    console.log("");
-    Print.now("interrupted");
-  }
-});
+if (cli.tmux) Tmux.extend(pomo);
+Landing.extend(pomo);
 
 // ----------------------------------------------------------------------------
 // Speaking / growling
@@ -115,6 +76,5 @@ pomo.on({
     if (words) say(words);
   }
 });
-
 
 pomo.run();
