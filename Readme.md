@@ -1,6 +1,4 @@
-<img src='http://rstacruz.github.io/pomo.js/tomato.png' align='right' alt='pomo.js' width='50' height='50' />
-
-# Pomo.js
+# Pomo ![Pomo](http://rstacruz.github.io/pomo.js/tomato-small.png)
 
 ```
 $ npm install -g pomo
