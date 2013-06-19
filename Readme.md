@@ -90,9 +90,12 @@ alias minipomo="pomo -w 10"
 
 ### Acknowledgements
 
-MIT
+Tomato icon by artbees. (via [iconfinder.net][icon])
+
+(c) 2013, Rico Sta. Cruz. MIT
 
 [visionmedia/pomo]: https://github.com/visionmedia/pomo
 [pmd]: http://me.dt.in.th/page/pmd
 [pom]: https://github.com/tobym/pom
 [pomo-tmux]: https://github.com/visionmedia/pomo#tmux-status-bar-integration
+[icon]: http://www.iconfinder.com/icondetails/56019/128/tomato_vegetable_icon
