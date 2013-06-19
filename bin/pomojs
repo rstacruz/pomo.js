@@ -76,6 +76,7 @@ pomo.on({
     Print.now(str);
   },
 
+  // Work-to-snack transition
   'snack': function() {
     say(format("Done! %s, break for %s",
       moment().format("hh:mm a"), pomo.snack.duration.humanize()));
@@ -84,26 +85,16 @@ pomo.on({
       duration(pomo.snack.duration)));
   },
 
+  'timer': function(mode, perc, elapsed, remaining, words) {
+    progress(mode, perc, elapsed, remaining);
+    if (words) say(words);
+  },
+
+  // All done
   'finish': function() {
     say(pomo.reason + ": all done!");
     logEntry(pomo);
     Print.now("done");
-  },
-
-  'timer:speak': function(mode, words) {
-    say(words);
-  },
-
-  'timer:initial': function(mode) {
-    progress(mode, 0, 0, 0);
-  },
-
-  'timer:update': function(mode, perc, elapsed, remaining) {
-    progress(mode, perc, elapsed, remaining);
-  },
-
-  'timer:finish': function(mode, elapsed) {
-    progress(mode, 1, elapsed, 0);
   },
 
   'interrupt': function() {
@@ -125,7 +116,8 @@ function logEntry(pomo) {
 
   Logger(cli.log, {
     reason      : pomo.reason,
-    date        : pomo.start,
+    start       : pomo.start,
+    end         : pomo.end,
     duration    : pomo.work.elapsed(),
     'break'     : pomo.snack.elapsed(),
     interrupted : pomo.interrupted
