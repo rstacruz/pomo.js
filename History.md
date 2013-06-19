@@ -1,3 +1,7 @@
+## v1.1.1 - unreleased
+
+ * Nothing yet
+
 ## v1.1.0 - June 20, 2013
 
  * Big refactor!
