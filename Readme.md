@@ -1,4 +1,4 @@
-<img src='https://rstacruz.github.io/pomo.js/tomato.png' align='right' alt='pomo.js' />
+<img src='http://rstacruz.github.io/pomo.js/tomato.png' align='right' alt='pomo.js' width='50' height='50' />
 
 # Pomo.js
 
