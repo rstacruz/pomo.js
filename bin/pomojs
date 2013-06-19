@@ -38,7 +38,7 @@ if (cli.duration) { cli.work = cli.duration; cli.break = 0; }
 var pomo = new Runner(cli.work, cli.break, { reason: cli.args.join(' ') || 'work' });
 
 if (cli.log) Logger.extend(pomo, cli.log);
-if (cli.tmux) Tmux.extend(pomo);
+if (cli.tmux) Tmux.extend(pomo, { file: '~/.pomo_stat' });
 Speaker.extend(pomo, { quiet: cli.quiet });
 Landing.extend(pomo);
 

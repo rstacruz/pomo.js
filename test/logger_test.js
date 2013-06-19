@@ -1,6 +1,6 @@
 require('./setup');
 
-var logger = require('../lib/logger');
+var logger = require('../lib/reporters/logger');
 var fs = require('fs');
 var mins = 60 * 1000;
 
