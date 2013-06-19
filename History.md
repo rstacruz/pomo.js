@@ -1,4 +1,4 @@
-## v1.0.7 - unreleased
+## v1.0.7 - June 19, 2013
 
  * Update log format to show duration (eg, `6:55am - 7:25am`).
 
