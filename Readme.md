@@ -85,6 +85,18 @@ alias longpomo="pomo -b 20"
 alias minipomo="pomo -w 10"
 ```
 
+#### Shortcut syntax
+
+You can use this syntax to save some keystrokes.
+
+``` sh
+# pomojs <work> <break> <reason>
+pomojs 25 2 Do things
+
+# the same as:
+pomojs --work 25 --break 2 Do things
+```
+
 -----
 
 ### Also see
