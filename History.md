@@ -1,4 +1,4 @@
-## v1.1.1 - unreleased
+## v1.1.1 - September 19, 2013
 
  * Fix typo in `--help` where it read "secs" instead of "mins"
  * Fix bug where the Tmux status doesn't clear on exit sometimes
@@ -6,6 +6,7 @@
  * Fix `-b 0` not working in certain circumstances.
  * The '3, 2, 1' countdown is now not being growled.
  * Add a shortcut `pomojs 25 10` to run a 25min + 10min timer.
+ * Pomo now doesn't clear the screen on startup.
 
 ## v1.1.0 - June 20, 2013
 
