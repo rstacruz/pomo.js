@@ -100,6 +100,12 @@ describe('Timer', function() {
       assert.isUndefined(timer.getMessage());
     });
 
+    it("minimal announcements", function() {
+      timer = makeTimer({ mins: 1.1, elapsed: 6*secs, minimalAnnouncements: true });
+
+      assert.isUndefined(timer.getMessage());
+    });
+
     it("1 minute to go", function() {
       timer = makeTimer({ mins: 1.1, elapsed: 6*secs });
 
@@ -130,7 +136,7 @@ describe('Timer', function() {
    */
 
   function makeTimer(options) {
-    var timer = new Timer(options.mins);
+    var timer = new Timer(options.mins, options);
     var start = moment('jan 10 2011, 01:00 am').toDate();
 
     timer.startDate = start;
