@@ -23,6 +23,7 @@ cli
   .option('-d, --duration [mins]', 'shortcut for -w <mins> -b 0', null)
   .option('-t, --tmux', 'enable tmux reporting')
   .option('-l, --log [file]', 'log to this file')
+  .option('-m, --minimal-announcements', 'only announce start and completion of work and break cycles')
   .option('-q, --quiet', 'no sounds')
   .on('--help', function() {
     console.log('  examples:');
@@ -31,6 +32,7 @@ cli
     console.log('    $ pomojs "Fix stuff"   # with reason');
     console.log('    $ pomojs -w 10         # 10-minute pomodoro');
     console.log('    $ pomojs -d 5 "Tea"    # Simple tea timer (no break)');
+    console.log('    $ pomojs -m            # Default timers w/ minimal announcements');
   })
   .parse(process.argv);
 
@@ -44,7 +46,7 @@ if (cli.args[0] && +cli.args[0] > 0 && _(cli.rawArgs).intersection(['--work','-w
   }
 }
 
-var pomo = new Runner(cli.work, cli.break, { reason: cli.args.join(' ') || 'work' });
+var pomo = new Runner(cli.work, cli.break, { reason: cli.args.join(' ') || 'work', minimalAnnouncements: cli.minimalAnnouncements });
 
 // Activate reporters
 if (cli.log) Logger.extend(pomo, cli.log);
